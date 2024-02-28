@@ -3,16 +3,16 @@ require "clerk/authenticatable"
 class ApplicationController < ActionController::API
 
   def current_user
-    oa = request.headers['Origin-App']
+    origin_app = request.headers['Origin-App']
     token = request.headers['Authorization']
 
-    if oa == 'App-A'
-      ak = ENV['CLERK_API_KEY_A'] # sk_test_..etc
+    if origin_app == 'App-A'
+      clerk_secret = ENV['CLERK_API_KEY_A'] # sk_test_..etc
     else
-      ak = ENV['CLERK_API_KEY_B'] # sk_test_..etc
+      clerk_secret = ENV['CLERK_API_KEY_B'] # sk_test_..etc
     end
 
-    sdk = Clerk::SDK.new(api_key: ak)
+    sdk = Clerk::SDK.new(api_key: clerk_secret)
     session = sdk.verify_token(token)
     sdk.users.find(session['sub'])
   end
