@@ -12,7 +12,8 @@ export const getUserData = async () => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `${token}`,
+      'Origin-App': 'App-A',
     },
   });
   console.log(res);
